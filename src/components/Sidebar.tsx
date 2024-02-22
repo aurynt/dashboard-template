@@ -47,7 +47,7 @@ export default function Sidebar({
         <div className="absolute  bg-teal rounded-full h-16 left-3 top-2 w-16 blur-lg"></div>
         <div className="absolute  bg-white rounded-full h-10 left-0 top-2 w-10 blur-lg"></div>
         <Image
-          className="z-10"
+          className="z-10 aspect-square"
           priority
           src={"/logo.png"}
           alt="logo"
@@ -69,10 +69,10 @@ export default function Sidebar({
               href={item.href}
               className={`sm:text-[10px] text-lg capitalize text-center ${
                 location == item.href ? "text-teal" : "text-white"
-              } flex sm:flex-col items-center gap-3 sm:gap-1`}
+              } flex sm:flex-col hover:text-yellow items-center gap-3 sm:gap-1`}
             >
               {item.icons}
-              {item.label}
+              <span className="line-clamp-1">{item.label}</span>
             </Link>
           ))}
         </div>
@@ -82,7 +82,7 @@ export default function Sidebar({
             href={"/profile"}
             className="flex items-end gap-2"
           >
-            <Avatar className="cursor-pointer sm:h-8 sm:w-8 rounded-full bg-teal">
+            <Avatar className="cursor-pointer sm:h-8 sm:w-8 rounded-full">
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div className="flex items-start sm:hidden flex-col">

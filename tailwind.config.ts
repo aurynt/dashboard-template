@@ -26,7 +26,8 @@ const config: Config = {
         yellow: "#FED14D",
         red: "#FA5145",
         white: "#FFFFFF",
-        black:"#000000"
+        black:"#000000",
+        muted:"hsl(var(--muted))"
       },
       borderRadius: {
         lg: "var(--radius)",

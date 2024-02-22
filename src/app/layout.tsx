@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import Sidebar from "@/components/Sidebar";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import Provider from "@/layouts/Provider";
 import Layout from "@/layouts/Layout";
 
 const inter = Poppins({ weight: "600", subsets: ["latin"] });
