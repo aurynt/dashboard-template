@@ -8,8 +8,16 @@ import { PiRepeatBold } from "react-icons/pi";
 import { TbBrandAirtable } from "react-icons/tb";
 import { FiSettings, FiX } from "react-icons/fi";
 import { FaCreditCard } from "react-icons/fa";
-import { Avatar, AvatarFallback } from "./ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { usePathname } from "next/navigation";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { Button } from "./ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
 
 const nav = [
   { href: "/", label: "dashboard", icons: <MdDashboard size={20} /> },
@@ -39,6 +47,7 @@ export default function Sidebar({
   setOpenSidebar?: () => void;
 }) {
   const location = usePathname();
+  const { data: session, status } = useSession();
   return (
     <section
       className={`bg-slate-950 bg-opacity-60 min-h-screen p-5 ${className}`}
@@ -77,25 +86,50 @@ export default function Sidebar({
           ))}
         </div>
         <div className="flex w-full sm:flex-col gap-1 justify-between items-center sm:mb-0 mb-5">
-          <Link
-            onClick={setOpenSidebar}
-            href={"/profile"}
-            className="flex items-end gap-2"
-          >
-            <Avatar className="cursor-pointer sm:h-8 sm:w-8 rounded-full">
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <div className="flex items-start sm:hidden flex-col">
-              <p className="text-sm">Heri Riyanto</p>
-              <p className="text-[12px]">rheri6599@gmail.com</p>
-            </div>
-          </Link>
-          {false ? (
-            <IoLogOutOutline size={25} />
+          {status == "authenticated" ? (
+            <>
+              <Link
+                onClick={setOpenSidebar}
+                href={"/profile"}
+                className="flex items-end gap-2"
+              >
+                <Avatar className="cursor-pointer sm:h-8 sm:w-8 rounded-full">
+                  <AvatarImage src={session.user?.image as string} />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                <div className="flex items-start sm:hidden flex-col">
+                  <p className="text-sm">{session?.user?.name ?? "Guest"}</p>
+                  <p className="text-[12px]">
+                    {session?.user?.email ?? "Guest"}
+                  </p>
+                </div>
+              </Link>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant={"ghost"} onClick={() => signOut()}>
+                      <IoLogOutOutline size={25} />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Sign Out</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </>
           ) : (
-            <Link href={"/sign-in"}>
-              <IoLogInOutline size={25} />
-            </Link>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant={"ghost"} onClick={() => signIn()}>
+                    <IoLogInOutline size={25} />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Sign In</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           )}
         </div>
       </div>

@@ -1,8 +1,10 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Separator } from "@radix-ui/react-separator";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 
@@ -32,6 +34,7 @@ export default function page() {
         >
           Forgot passsword?
         </Link>
+        <Button onClick={() => signIn("google")}>Google</Button>
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import Layout from "@/layouts/Layout";
+import Provider from "@/layouts/Provider";
 
 const inter = Poppins({ weight: "600", subsets: ["latin"] });
 
@@ -24,7 +25,9 @@ export default function RootLayout({
         <div className="-z-10 absolute  bg-teal rounded-r-full h-96 left-[30rem] top-52 w-96 blur-3xl opacity-40"></div>
         <div className="-z-10 absolute  bg-red rounded-r-full h-96 right-96 top-20 w-96 blur-3xl opacity-40"></div>
         <div className="-z-10 absolute  bg-yellow rounded-tr-full h-96 right-40 bottom-12 w-[30rem] blur-3xl opacity-40"></div>
-        <Layout>{children}</Layout>
+        <Provider>
+          <Layout>{children}</Layout>
+        </Provider>
       </body>
     </html>
   );

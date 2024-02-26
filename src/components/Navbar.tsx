@@ -11,7 +11,8 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import Sidebar from "./Sidebar";
-import { EventHandler, useState } from "react";
+import { useState } from "react";
+import { PiUserBold } from "react-icons/pi";
 
 export default function Navbar() {
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -46,19 +47,13 @@ export default function Navbar() {
               </DialogHeader>
             </DialogContent>
           </Dialog>
-          <button>
-            <FiMenu
-              className="sm:hidden"
-              onClick={() => setOpenSidebar(!openSidebar)}
-              size={23}
-            />
-          </button>
-          <button>
-            <BiBell size={23} />
-          </button>
-          <button>
-            <BiDotsVerticalRounded size={23} />
-          </button>
+          <FiMenu
+            size={23}
+            className="sm:hidden"
+            onClick={() => setOpenSidebar(!openSidebar)}
+          />
+          <BiBell size={23} />
+          <PiUserBold size={23} />
         </div>
       </nav>
       <Sidebar

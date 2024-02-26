@@ -1,5 +1,8 @@
-import { Fragment, ReactNode } from "react";
+"use client";
 
-export default function Provider({ children }: { children: ReactNode }) {
-  return <Fragment>{children}</Fragment>;
+import { PageProps } from "@/type";
+import { SessionProvider } from "next-auth/react";
+
+export default function Provider({ children }: PageProps) {
+  return <SessionProvider>{children}</SessionProvider>;
 }

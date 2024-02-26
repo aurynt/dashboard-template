@@ -20,3 +20,7 @@ export type DataTableProps<TData> = {
   columns: ColumnDef<TData>[];
   data: TData[];
 };
+
+export type PageProps<T = {}> = {
+  children: ReactNode;
+} & T;
