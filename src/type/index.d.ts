@@ -1,4 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { NextMiddleware } from "next/server";
 
 export type Payment = {
   id: string;
@@ -23,4 +24,8 @@ export type DataTableProps<TData> = {
 
 export type PageProps<T = {}> = {
   children: ReactNode;
+} & T;
+
+export type MiddlewareProps<T = {}> = {
+  middleware: NextMiddleware;
 } & T;

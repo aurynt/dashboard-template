@@ -2,8 +2,7 @@ import { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import { JWT, JWTDecodeParams, JWTEncodeParams } from "next-auth/jwt";
-import { sign } from "crypto";
-
+import { sign, verify } from "jsonwebtoken";
 export const options: AuthOptions = {
   providers: [
     GoogleProvider({
@@ -18,28 +17,27 @@ export const options: AuthOptions = {
   session: {
     strategy: "jwt",
   },
-    jwt: {
-      maxAge: 60 * 60 * 24,
-      // You can define your own encode/decode functions for signing and encryption
-      async encode(params: JWTEncodeParams): Promise<string> {
-        // return a custom encoded JWT string
-        console.log('encode',params.token)
-        return params.token
-      },
-      async decode(params: JWTDecodeParams): Promise<JWT | null> {
-        // return a `JWT` object, or `null` if decoding failed
-         console.log('decode',params.token)
-        return {};
-      },
+  jwt: {
+    maxAge: 60 * 60 * 24,
+    async encode(params: JWTEncodeParams): Promise<string> {
+      const { token } = params;
+      const secret = process.env.NEXTAUTH_SECRET as string;
+      const res = sign(token as JWT, secret);
+      return res;
     },
+    async decode(params: JWTDecodeParams): Promise<JWT | null> {
+      const { token } = params;
+      const secret = process.env.NEXTAUTH_SECRET as string;      
+      const res = verify(token as string, secret);
+      return res as JWT;
+    },
+  },
 
   callbacks: {
     async jwt({ token, user, session }) {
-      console.log("jwt", token);
       return token;
     },
     async session({ token, user, session }) {
-      console.log("session", session);
       return session;
     },
   },

@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { IoLogInOutline, IoLogOutOutline } from "react-icons/io5";
 import { MdDashboard } from "react-icons/md";
 import { PiRepeatBold } from "react-icons/pi";
 import { TbBrandAirtable } from "react-icons/tb";
@@ -10,14 +9,7 @@ import { FiSettings, FiX } from "react-icons/fi";
 import { FaCreditCard } from "react-icons/fa";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { usePathname } from "next/navigation";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { Button } from "./ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "./ui/tooltip";
+import { useSession } from "next-auth/react";
 
 const nav = [
   { href: "/", label: "dashboard", icons: <MdDashboard size={20} /> },
@@ -85,53 +77,24 @@ export default function Sidebar({
             </Link>
           ))}
         </div>
-        <div className="flex w-full sm:flex-col gap-1 justify-between items-center sm:mb-0 mb-5">
-          {status == "authenticated" ? (
-            <>
-              <Link
-                onClick={setOpenSidebar}
-                href={"/profile"}
-                className="flex items-end gap-2"
-              >
-                <Avatar className="cursor-pointer sm:h-8 sm:w-8 rounded-full">
-                  <AvatarImage src={session.user?.image as string} />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                <div className="flex items-start sm:hidden flex-col">
-                  <p className="text-sm">{session?.user?.name ?? "Guest"}</p>
-                  <p className="text-[12px]">
-                    {session?.user?.email ?? "Guest"}
-                  </p>
-                </div>
-              </Link>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant={"ghost"} onClick={() => signOut()}>
-                      <IoLogOutOutline size={25} />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Sign Out</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </>
-          ) : (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant={"ghost"} onClick={() => signIn()}>
-                    <IoLogInOutline size={25} />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Sign In</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
-        </div>
+        {status === "authenticated" && (
+          <div className="flex w-full sm:flex-col gap-1 justify-between items-center sm:mb-0 mb-5">
+            <Link
+              onClick={setOpenSidebar}
+              href={"/profile"}
+              className="flex items-end gap-2"
+            >
+              <Avatar className="cursor-pointer sm:h-8 sm:w-8 rounded-full">
+                <AvatarImage src={session?.user?.image as string} />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+              <div className="flex items-start sm:hidden flex-col">
+                <p className="text-sm">{session?.user?.name ?? "Guest"}</p>
+                <p className="text-[12px]">{session?.user?.email ?? "Guest"}</p>
+              </div>
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );
