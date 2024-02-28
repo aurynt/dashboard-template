@@ -22,6 +22,7 @@ export default function Navbar() {
     console.log(e.target.value);
   };
   const { data: session, status } = useSession();
+
   return (
     <>
       <nav className="flex justify-between gap-5 bg-transparent min-h-[80px] w-full items-center">

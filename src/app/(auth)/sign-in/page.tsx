@@ -1,14 +1,18 @@
-"use client";
+import SignInProviders from "@/components/SignInProviders";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@radix-ui/react-separator";
-import { signIn } from "next-auth/react";
+import { Metadata } from "next";
+import { getProviders } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 
 export default function page() {
+  Object.entries(getProviders()).map((item) => {
+    console.log(item);
+  });
+
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="bg-transparent border -backdrop-hue-rotate-60 p-5 rounded-lg flex-col flex gap-3">
@@ -32,10 +36,18 @@ export default function page() {
           href={"#"}
           className="text-blue-400 w-full block text-end text-sm"
         >
-          Forgot passsword?
+          Forgot password?
         </Link>
-        <Button onClick={() => signIn("google")}>Google</Button>
+        <SignInProviders />
       </div>
     </div>
   );
+}
+
+export function generateMetadata(): Metadata {
+  return {
+    title: "Sign In",
+    description: "Sign in to your account",
+    keywords: "sign in, sign up, sign in with google",
+  };
 }
