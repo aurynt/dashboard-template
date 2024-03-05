@@ -1,4 +1,34 @@
-import * as React from "react";
+"use client";
+import React, { HtmlHTMLAttributes, useState } from "react";
+import { Input } from "./ui/input";
+import { LuEye, LuEyeOff } from "react-icons/lu";
+
+export default function InputPassword(
+  props: HtmlHTMLAttributes<HTMLInputElement>
+) {
+  const [show, setShow] = useState(false);
+  const handleClick = () => {
+    setShow(!show);
+  };
+  return (
+    <div className="relative w-full">
+      {show ? (
+        <LuEye
+          onClick={handleClick}
+          className="absolute right-2 top-2 cursor-pointer"
+          size={20}
+        />
+      ) : (
+        <LuEyeOff
+          onClick={handleClick}
+          className="absolute right-2 top-2 cursor-pointer"
+          size={20}
+        />
+      )}
+      <Input type={show ? "text" : "password"} {...props} />
+    </div>
+  );
+}
 
 import { cn } from "@/lib/utils";
 

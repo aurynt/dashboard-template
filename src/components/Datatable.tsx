@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { useState } from "react";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import {
   ColumnFiltersState,
@@ -33,13 +33,10 @@ import {
 import { DataTableProps, User } from "@/type";
 
 export default function DataTable({ columns, data }: DataTableProps<User>) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
     data,
@@ -65,8 +62,8 @@ export default function DataTable({ columns, data }: DataTableProps<User>) {
         <Input
           placeholder="Filter emails..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+          onChange={(e) =>
+            table.getColumn("email")?.setFilterValue(e.target.value)
           }
           className="max-w-sm"
         />

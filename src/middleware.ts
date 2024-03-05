@@ -9,7 +9,7 @@ export async function middleware(req: NextRequest, res: NextResponse) {
   });
 
   if (!token) {
-    const url = new URL("/api/auth/signin", req.url);
+    const url = new URL("/sign-in", req.url);
     return NextResponse.redirect(url);
   }
 
@@ -17,5 +17,5 @@ export async function middleware(req: NextRequest, res: NextResponse) {
 }
 
 export const config = {
-  matcher: "/",
+  matcher: '/',
 };

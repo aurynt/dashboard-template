@@ -26,35 +26,21 @@ export default function Page() {
   };
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="bg-transparent min-w-80 border -backdrop-hue-rotate-60 p-5 rounded-lg flex-col flex gap-3">
-        <h1 className="text-2xl text-center">Sign In</h1>
+      <div className="bg-transparent min-w-80 border -backdrop-hue-rotate-60 p-5 rounded-lg flex-col flex gap-5">
+        <h1 className="text-2xl text-center">Forgot Password</h1>
         <div className="flex-col flex gap-3">
           <div className="flex flex-col gap-1">
-            <Label>Username</Label>
             <Input
+              type="email"
+              placeholder="Enter your email address..."
               onChange={(e) => setData({ ...data, username: e.target.value })}
               name="username"
             />
-          </div>
-          <div className="flex flex-col gap-1">
-            <Label>Password</Label>
-            <Input
-              onChange={(e) => setData({ ...data, password: e.target.value })}
-              name="username"
-            />
-            <InputPassword name="password" />
           </div>
           <Button onClick={handleSubmit} className="bg-yellow w-full">
             Submit
           </Button>
         </div>
-        <Link
-          href={"/forgot-password"}
-          className="text-blue-400 w-full block text-end text-sm"
-        >
-          Forgot password?
-        </Link>
-        <SignInProviders />
       </div>
     </div>
   );

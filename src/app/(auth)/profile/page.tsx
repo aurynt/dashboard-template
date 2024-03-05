@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 
 export default function Page() {
   const { data: session } = useSession();
+
   const { name, image, email } = session?.user!;
   return (
     <div className="border rounded-lg p-5">
