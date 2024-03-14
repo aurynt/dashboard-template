@@ -17,7 +17,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           <div className="flex flex-col h-screen px-5 gap-5 w-full">
             <Navbar />
             <div className="overflow-y-scroll">
-              <ScrollArea>{children}</ScrollArea>
+              {children}
               <Footer />
             </div>
           </div>
