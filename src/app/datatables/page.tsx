@@ -1,18 +1,18 @@
-import DataTable from "@/components/Datatable";
-import { columns } from "@/components/Columns";
+import { columns } from "./columns";
 import { Suspense } from "react";
 import Loading from "./loading";
 import { Metadata } from "next";
-import { getData } from "@/data/User";
-import type { User } from "@/type";
-import { ScrollBar } from "@/components/ui/scroll-area";
+import { data } from "@/data/Payment";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import DataTable from "@/components/ui/data-table";
 
 export default async function page() {
-  const res = await getData();
   return (
     <Suspense fallback={<Loading />}>
-      <DataTable columns={columns} data={res.users as User[]} />
-      <ScrollBar orientation="horizontal" />
+      <ScrollArea>
+        <DataTable columns={columns} data={data} />
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
     </Suspense>
   );
 }
