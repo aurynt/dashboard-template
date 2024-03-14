@@ -15,6 +15,15 @@ import { useState } from "react";
 import { PiUserBold } from "react-icons/pi";
 import { Button } from "./ui/button";
 import { signIn, signOut, useSession } from "next-auth/react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 
 export default function Navbar() {
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -30,7 +39,7 @@ export default function Navbar() {
         <div className="flex gap-3 items-center overflow-hidden relative">
           <Dialog>
             <DialogTrigger>
-              <FiSearch size={23} />
+              <FiSearch className="hover:text-yellow" size={23} />
             </DialogTrigger>
             <DialogContent className="backdrop-blur-xl">
               <DialogHeader className="gap-3">
@@ -51,28 +60,44 @@ export default function Navbar() {
               </DialogHeader>
             </DialogContent>
           </Dialog>
-          <div>
-            <FiMenu
-              size={23}
-              className="sm:hidden"
-              onClick={() => setOpenSidebar(!openSidebar)}
-            />
+          <div className="hover:text-yellow sm:hidden">
+            <FiMenu size={23} onClick={() => setOpenSidebar(!openSidebar)} />
           </div>
-          <div>
-            <BiBell size={23} />
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <div>
+                <BiBell
+                  className="hover:text-yellow cursor-pointer"
+                  size={23}
+                />
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="bg-black">
+              <DropdownMenuItem className="cursor-pointer hover:text-teal">
+                harry menghapus barang
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer hover:text-teal">
+                jbvhv menambahkan pelanggan
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer hover:text-teal">
+                harry menambahkan transaksi
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           {status == "authenticated" ? (
             <Button
+              variant={"ghost"}
               onClick={() => signOut()}
-              className="bg-muted/30 gap-1 flex items-center font-bold rounded-full"
+              className="hover:text-yellow hidden bg-muted/30 gap-1 sm:flex items-center font-bold rounded-full"
             >
               <PiUserBold size={18} />
               Sign Out
             </Button>
           ) : (
             <Button
+              variant={"ghost"}
               onClick={() => signIn()}
-              className="bg-muted/30 gap-1 flex items-center font-bold rounded-full"
+              className="hover:text-yellow hidden bg-muted/30 gap-1 sm:flex items-center font-bold rounded-full"
             >
               <PiUserBold size={18} />
               Sign In

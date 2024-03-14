@@ -5,17 +5,18 @@ import Link from "next/link";
 import { MdDashboard } from "react-icons/md";
 import { PiRepeatBold } from "react-icons/pi";
 import { TbBrandAirtable } from "react-icons/tb";
-import { FiSettings, FiX } from "react-icons/fi";
+import { FiSettings, FiX, FiLogOut } from "react-icons/fi";
 import { FaCreditCard } from "react-icons/fa";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { usePathname } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { signOut, useSession, signIn } from "next-auth/react";
+import { Button } from "./ui/button";
 
 const nav = [
   { href: "/", label: "dashboard", icons: <MdDashboard size={20} /> },
   {
-    href: "/transfers",
-    label: "transfers",
+    href: "/transaction",
+    label: "transaction",
     icons: <PiRepeatBold size={20} />,
   },
   { href: "/card", label: "card", icons: <FaCreditCard size={20} /> },
@@ -68,16 +69,16 @@ export default function Sidebar({
               onClick={setOpenSidebar}
               key={i}
               href={item.href}
-              className={`sm:text-[10px] text-lg capitalize text-center ${
+              className={`sm:text-[8px] text-lg capitalize text-center ${
                 location == item.href ? "text-teal" : "text-white"
-              } flex sm:flex-col hover:text-yellow items-center gap-3 sm:gap-1`}
+              } flex sm:flex-col hover:text-yellow items-center gap-3 sm:gap-0`}
             >
               {item.icons}
-              <span className="line-clamp-1">{item.label}</span>
+              <span className="text-nowrap">{item.label}</span>
             </Link>
           ))}
         </div>
-        {status === "authenticated" && (
+        {status === "authenticated" ? (
           <div className="flex w-full sm:flex-col gap-1 justify-between items-center sm:mb-0 mb-5">
             <Link
               onClick={setOpenSidebar}
@@ -88,12 +89,26 @@ export default function Sidebar({
                 <AvatarImage src={session?.user?.image as string} />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
-              <div className="flex items-start sm:hidden flex-col">
-                <p className="text-sm">{session?.user?.name ?? "Guest"}</p>
-                <p className="text-[12px]">{session?.user?.email ?? "Guest"}</p>
+              <div className="flex items-start sm:hidden flex-col hover:text-yellow">
+                <p className="text-sm">{session?.user?.name as string}</p>
+                <p className="text-[12px]">{session?.user?.email as string}</p>
               </div>
             </Link>
+            <button
+              className="hover:text-yellow sm:hidden"
+              onClick={() => signOut()}
+            >
+              <FiLogOut size={23} />
+            </button>
           </div>
+        ) : (
+          <Button
+            variant={"ghost"}
+            className="bg-muted/20 mb-5 hover:text-yellow sm:hidden"
+            onClick={() => signIn()}
+          >
+            Sign in
+          </Button>
         )}
       </div>
     </section>
