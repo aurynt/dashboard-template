@@ -39,7 +39,7 @@ export const options: AuthOptions = {
       return { ...token, ...user };
     },
   },
-  // pages: {
-  //   signIn: "/sign-in",
-  // },
+  pages: {
+    signIn: "/sign-in",
+  },
 };

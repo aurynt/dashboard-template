@@ -8,21 +8,30 @@ export type Payment = {
   email: string;
 };
 
+export type Product<T = {}> = {
+  id: string;
+  name: string;
+  price: number;
+  stock: number;
+} & T;
+
 export type User = {
   id: string;
-  firstName: string;
-  lastName: string;
+  name:string;
   email: string;
-  gender: string;
-  ein: string;
+  address: string;
 };
 
-export type DataTableProps<TData> = {
-  columns: ColumnDef<TData>[];
+export type DataTableProps<TData,TValue> = {
+  columns: ColumnDef<TData,TValue>[];
   data: TData[];
 };
 
 export type PageProps<T = {}> = {
+  children: ReactNode;
+  session: Session;
+} & T;
+export type LayoutProps<T = {}> = {
   children: ReactNode;
 } & T;
 
