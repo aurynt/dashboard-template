@@ -1,5 +1,5 @@
 "use client";
-import InputPassword from "@/components/InputPassword";
+import { InputPassword } from "@/components/InputPassword";
 import SignInProviders from "@/components/SignInProviders";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

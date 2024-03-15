@@ -12,7 +12,11 @@ export default function Payment() {
   const cashRef = useRef<HTMLInputElement>(null);
   const pay = () => {
     if (cash < total) {
-      toast("Less money");
+      toast("Less money", {
+        style: {
+          color: "#FA5145",
+        },
+      });
       return;
     }
     const sale = {
@@ -34,7 +38,11 @@ export default function Payment() {
   const changeCash = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key == "Enter") {
       if (cashRef.current!.value == "0" || cashRef.current!.value == "") {
-        toast("Cash cannot be empty");
+        toast("Cash cannot be empty", {
+          style: {
+            color: "#FA5145",
+          },
+        });
         return;
       }
       setDone && setDone(true);
@@ -64,7 +72,7 @@ export default function Payment() {
           <span
             className={`${
               cash - total < 0 ? "text-red" : ""
-            } text-lg font-black`}
+            } text-xl font-black`}
           >
             {formatCurrency(cash - total)}
           </span>

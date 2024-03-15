@@ -24,18 +24,20 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [openSidebar, setOpenSidebar] = useState(false);
   const handleSearch = (e: any) => {
     console.log(e.target.value);
   };
-  const { data: session, status } = useSession();
+  const { status } = useSession();
+  const path = usePathname();
 
   return (
     <>
       <nav className="flex justify-between gap-5 bg-transparent min-h-[80px] w-full items-center">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <h1 className="text-2xl font-bold capitalize">Kaise</h1>
         <div className="flex gap-3 items-center overflow-hidden relative">
           <Dialog>
             <DialogTrigger>

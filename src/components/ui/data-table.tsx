@@ -20,6 +20,11 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
+  DropdownMenuPortal,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+  DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
@@ -31,16 +36,20 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { DataTableProps } from "@/type";
+import { HiOutlineDotsVertical } from "react-icons/hi";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./select";
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./dialog";
+import FormPayment from "../partials/datatable/Form";
 
 export default function DataTable<TData, TValue>({
   columns,
+  children,
   data,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -66,6 +75,8 @@ export default function DataTable<TData, TValue>({
       rowSelection,
     },
   });
+  const column = table.getAllColumns().filter((column) => column.getCanHide());
+
   return (
     <div className="w-full">
       <div className="flex items-center py-4 gap-2">
@@ -77,57 +88,77 @@ export default function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        <div className="space-x-2 ml-auto flex">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline">
-                Pages <ChevronDownIcon className="ml-2 h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="bg-black">
-              {[10, 20, 30, 40, 50].map((pageSize) => (
-                <DropdownMenuCheckboxItem
-                  key={pageSize}
-                  className="capitalize"
-                  checked={table.getState().pagination.pageSize === pageSize}
-                  onCheckedChange={() => {
-                    table.setPageSize(Number(pageSize));
-                  }}
+        <DropdownMenu>
+          <DropdownMenuTrigger className="ml-auto outline-none">
+            <HiOutlineDotsVertical size={23} />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="bg-black">
+            <Dialog>
+              <DialogTrigger asChild>
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onSelect={(e) => e.preventDefault()}
                 >
-                  {pageSize}
-                </DropdownMenuCheckboxItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline">
-                Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="bg-black">
-              {table
-                .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => {
-                  return (
+                  Add
+                </DropdownMenuItem>
+              </DialogTrigger>
+              <DialogContent className="backdrop-blur-xl rounded-lg space-x-2">
+                <DialogHeader>
+                  <DialogTitle>Title form</DialogTitle>
+                </DialogHeader>
+                {children}
+              </DialogContent>
+            </Dialog>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger className="cursor-pointer">
+                Pages
+              </DropdownMenuSubTrigger>
+              <DropdownMenuPortal>
+                <DropdownMenuSubContent className="bg-black">
+                  {[10, 20, 30, 40, 50].map((pageSize) => (
                     <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)
+                      key={pageSize}
+                      className="capitalize cursor-pointer"
+                      checked={
+                        table.getState().pagination.pageSize === pageSize
                       }
+                      onCheckedChange={() => {
+                        table.setPageSize(Number(pageSize));
+                      }}
                     >
-                      {column.id}
+                      {pageSize}
                     </DropdownMenuCheckboxItem>
-                  );
-                })}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+                  ))}
+                </DropdownMenuSubContent>
+              </DropdownMenuPortal>
+            </DropdownMenuSub>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger className="cursor-pointer">
+                Columns
+              </DropdownMenuSubTrigger>
+              <DropdownMenuPortal>
+                <DropdownMenuSubContent className="bg-black cursor-pointer">
+                  {column.map((column) => {
+                    return (
+                      <DropdownMenuCheckboxItem
+                        key={column.id}
+                        className="capitalize"
+                        checked={column.getIsVisible()}
+                        onCheckedChange={(value) =>
+                          column.toggleVisibility(!!value)
+                        }
+                      >
+                        {column.id}
+                      </DropdownMenuCheckboxItem>
+                    );
+                  })}
+                </DropdownMenuSubContent>
+              </DropdownMenuPortal>
+            </DropdownMenuSub>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
-      <div className="rounded-md border px-1">
+      <div className="rounded-md border px-1 backdrop-hue-rotate-30">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

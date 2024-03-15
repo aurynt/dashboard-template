@@ -4,27 +4,22 @@ import SignInProviders from "@/components/SignInProviders";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Metadata } from "next";
 import Link from "next/link";
-import { getCsrfToken, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 export default function Page() {
   const [data, setData] = useState({
     username: "",
     password: "",
   });
-  const router = useRouter();
   const handleSubmit = async () => {
-    const res = await signIn("credentials", {
+    await signIn("credentials", {
       username: data.username,
       password: data.password,
-      redirect: false,
+      redirect: true,
+      callbackUrl: "/",
     });
-    if (res?.ok) {
-      router.push("/");
-    }
   };
   return (
     <div className="flex justify-center items-center h-screen">

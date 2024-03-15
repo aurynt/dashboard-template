@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTransaction } from "@/context/TransactionContext";
 import { product as data } from "@/data/Product";
+import { formatCurrency } from "@/lib/utils";
 import { Product } from "@/type";
 import { KeyboardEvent, useRef, useState } from "react";
 
@@ -47,13 +48,12 @@ export default function SearchItems() {
         Add
       </Button>
       {selectedProduct && (
-        <div className="sm:col-span-2 col-span-full relative bg-muted/30 rounded-lg p-2">
-          <span className="text-sm block font-bold">
+        <div className="sm:col-span-2 align-middle col-span-full relative bg-muted/30 rounded-lg p-2">
+          <span className="text-sm align-middle block font-bold">
             {selectedProduct.name}
           </span>
-          <span className="font-thin text-teal">{selectedProduct.price}</span>
-          <span className="absolute right-2 top-2 text-yellow">
-            {selectedProduct.stock}
+          <span className="absolute text-sm right-2 top-2 text-yellow">
+            {formatCurrency(selectedProduct.price)}
           </span>
         </div>
       )}

@@ -19,12 +19,6 @@ const nav = [
     label: "transaction",
     icons: <PiRepeatBold size={20} />,
   },
-  { href: "/card", label: "card", icons: <FaCreditCard size={20} /> },
-  {
-    href: "/settings",
-    label: "settings",
-    icons: <FiSettings size={20} />,
-  },
   {
     href: "/datatables",
     label: "data tables",

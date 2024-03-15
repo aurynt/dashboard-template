@@ -45,7 +45,11 @@ const reducer = (state: InitialState, action: Action): InitialState => {
       return { ...state, cash: action.payload.cash };
     case "ADD_PRODUCT":
       if (typeof action.payload.product.id == "undefined") {
-        toast("Select product first");
+        toast("Product not found", {
+          style: {
+            color: "#FA5145",
+          },
+        });
         return state;
       }
       if (
@@ -53,7 +57,11 @@ const reducer = (state: InitialState, action: Action): InitialState => {
           (item) => item.id == action.payload.product.id
         ) !== "undefined"
       ) {
-        toast("Product has been added");
+        toast("Product has been added", {
+          style: {
+            color: "#FA5145",
+          },
+        });
 
         return state;
       }
