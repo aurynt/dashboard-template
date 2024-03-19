@@ -11,3 +11,7 @@ export const formatCurrency = (amount: number) => {
     currency: "IDR",
   }).format(amount);
 };
+
+export const countPropertyFromArray = (arr: any[], key: string) => {
+    return arr.reduce((prev, item) => prev + item[key], 0);
+  };

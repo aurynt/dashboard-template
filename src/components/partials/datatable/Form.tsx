@@ -11,31 +11,31 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { Product } from "@/type";
 
 const formSchema = z.object({
-  email: z.string().min(2, {
+  nama: z.string().min(2, {
     message: "Email must be at least 2 characters.",
   }),
-  status: z.string().min(2, {
+  harga: z.string().min(2, {
     message: "Status must be at least 2 characters.",
   }),
-  amount: z.string().min(2, {
+  stok: z.string().min(2, {
     message: "Amount must be at least 2 characters.",
   }),
 });
 
-export default function FormPayment() {
+export default function FormProduct({ data }: { data?: Product }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      status: undefined,
-      email: undefined,
-      amount: undefined,
+      nama: data?.name ?? "",
+      harga: data?.price.toString() ?? undefined,
+      stok: data?.stock.toString() ?? undefined,
     },
   });
   const submit = (values: z.infer<typeof formSchema>) => {
@@ -54,15 +54,12 @@ export default function FormPayment() {
         <form onSubmit={form.handleSubmit(submit)}>
           <FormField
             control={form.control}
-            name="email"
+            name="nama"
             render={({ field }) => (
               <FormItem>
-                <FormLabel />
+                <FormLabel className="capitalize">{field.name}</FormLabel>
                 <FormControl>
-                  <div className="space-y-2">
-                    <Label className="capitalize">{field.name}</Label>
-                    <Input {...field} />
-                  </div>
+                  <Input {...field} />
                 </FormControl>
                 <FormDescription />
                 <FormMessage />
@@ -71,15 +68,12 @@ export default function FormPayment() {
           />
           <FormField
             control={form.control}
-            name="amount"
+            name="harga"
             render={({ field }) => (
               <FormItem>
-                <FormLabel />
+                <FormLabel className="capitalize">{field.name}</FormLabel>
                 <FormControl>
-                  <div className="space-y-2">
-                    <Label className="capitalize">{field.name}</Label>
-                    <Input {...field} />
-                  </div>
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -87,15 +81,12 @@ export default function FormPayment() {
           />
           <FormField
             control={form.control}
-            name="status"
+            name="stok"
             render={({ field }) => (
               <FormItem>
-                <FormLabel />
+                <FormLabel className="capitalize">{field.name}</FormLabel>
                 <FormControl>
-                  <div className="space-y-2">
-                    <Label className="capitalize">{field.name}</Label>
-                    <Input {...field} />
-                  </div>
+                  <Input {...field} />
                 </FormControl>
                 <FormDescription />
                 <FormMessage />

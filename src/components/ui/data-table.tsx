@@ -1,5 +1,6 @@
 "use client";
 
+import { CgOptions } from "react-icons/cg";
 import { useState } from "react";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import {
@@ -36,7 +37,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { DataTableProps } from "@/type";
-import { HiOutlineDotsVertical } from "react-icons/hi";
 import {
   Dialog,
   DialogContent,
@@ -46,6 +46,10 @@ import {
   DialogTrigger,
 } from "./dialog";
 import FormPayment from "../partials/datatable/Form";
+import { Popover, PopoverContent, PopoverTrigger } from "./popover";
+import { Label } from "./label";
+import { LuDownload, LuFileDown } from "react-icons/lu";
+import { LuFilePlus2 } from "react-icons/lu";
 
 export default function DataTable<TData, TValue>({
   columns,
@@ -81,82 +85,106 @@ export default function DataTable<TData, TValue>({
     <div className="w-full">
       <div className="flex items-center py-4 gap-2">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter name..."
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(e) =>
-            table.getColumn("email")?.setFilterValue(e.target.value)
+            table.getColumn("name")?.setFilterValue(e.target.value)
           }
           className="max-w-sm"
         />
-        <DropdownMenu>
-          <DropdownMenuTrigger className="ml-auto outline-none">
-            <HiOutlineDotsVertical size={23} />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-black">
-            <Dialog>
-              <DialogTrigger asChild>
-                <DropdownMenuItem
-                  className="cursor-pointer"
-                  onSelect={(e) => e.preventDefault()}
-                >
-                  Add
-                </DropdownMenuItem>
-              </DialogTrigger>
-              <DialogContent className="backdrop-blur-xl rounded-lg space-x-2">
-                <DialogHeader>
-                  <DialogTitle>Title form</DialogTitle>
-                </DialogHeader>
-                {children}
-              </DialogContent>
-            </Dialog>
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger className="cursor-pointer">
-                Pages
-              </DropdownMenuSubTrigger>
-              <DropdownMenuPortal>
-                <DropdownMenuSubContent className="bg-black">
-                  {[10, 20, 30, 40, 50].map((pageSize) => (
-                    <DropdownMenuCheckboxItem
-                      key={pageSize}
-                      className="capitalize cursor-pointer"
-                      checked={
-                        table.getState().pagination.pageSize === pageSize
-                      }
-                      onCheckedChange={() => {
-                        table.setPageSize(Number(pageSize));
-                      }}
-                    >
-                      {pageSize}
-                    </DropdownMenuCheckboxItem>
-                  ))}
-                </DropdownMenuSubContent>
-              </DropdownMenuPortal>
-            </DropdownMenuSub>
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger className="cursor-pointer">
-                Columns
-              </DropdownMenuSubTrigger>
-              <DropdownMenuPortal>
-                <DropdownMenuSubContent className="bg-black cursor-pointer">
-                  {column.map((column) => {
-                    return (
+        <div className="flex ml-auto space-x-2">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant={"outline"} className="align-middle">
+                <LuFilePlus2 className="mr-2 h-4 w-4 " />
+                Add
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="backdrop-blur-xl rounded-lg space-x-2">
+              <DialogHeader>
+                <DialogTitle>Title form</DialogTitle>
+              </DialogHeader>
+              {children}
+            </DialogContent>
+          </Dialog>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant={"outline"} className="align-middle">
+                <LuFileDown className="mr-2 h-4 w-4 " /> Export
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="space-y-5">
+              <div className="space-y-2">
+                <Label>Start</Label>
+                <Input />
+              </div>
+              <div className="space-y-2">
+                <Label>End</Label>
+                <Input />
+              </div>
+              <Button className="w-full align-middle">
+                <LuDownload className="mr-2 h-4 w-4 " />
+                Download
+              </Button>
+            </PopoverContent>
+          </Popover>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="outline-none" asChild>
+              <Button variant={"outline"} className="align-middle">
+                <CgOptions className="mr-2 h-4 w-4 " />
+                View
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="bg-black">
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger className="cursor-pointer">
+                  Pages
+                </DropdownMenuSubTrigger>
+                <DropdownMenuPortal>
+                  <DropdownMenuSubContent className="bg-black">
+                    {[10, 20, 30, 40, 50].map((pageSize) => (
                       <DropdownMenuCheckboxItem
-                        key={column.id}
-                        className="capitalize"
-                        checked={column.getIsVisible()}
-                        onCheckedChange={(value) =>
-                          column.toggleVisibility(!!value)
+                        key={pageSize}
+                        className="capitalize cursor-pointer"
+                        checked={
+                          table.getState().pagination.pageSize === pageSize
                         }
+                        onCheckedChange={() => {
+                          table.setPageSize(Number(pageSize));
+                        }}
                       >
-                        {column.id}
+                        {pageSize}
                       </DropdownMenuCheckboxItem>
-                    );
-                  })}
-                </DropdownMenuSubContent>
-              </DropdownMenuPortal>
-            </DropdownMenuSub>
-          </DropdownMenuContent>
-        </DropdownMenu>
+                    ))}
+                  </DropdownMenuSubContent>
+                </DropdownMenuPortal>
+              </DropdownMenuSub>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger className="cursor-pointer">
+                  Columns
+                </DropdownMenuSubTrigger>
+                <DropdownMenuPortal>
+                  <DropdownMenuSubContent className="bg-black cursor-pointer">
+                    {column.map((column) => {
+                      return (
+                        <DropdownMenuCheckboxItem
+                          key={column.id}
+                          className="capitalize"
+                          checked={column.getIsVisible()}
+                          onCheckedChange={(value) =>
+                            column.toggleVisibility(!!value)
+                          }
+                        >
+                          {column.id}
+                        </DropdownMenuCheckboxItem>
+                      );
+                    })}
+                  </DropdownMenuSubContent>
+                </DropdownMenuPortal>
+              </DropdownMenuSub>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
       <div className="rounded-md border px-1 backdrop-hue-rotate-30">
         <Table>

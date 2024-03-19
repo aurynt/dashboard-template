@@ -1,6 +1,5 @@
 "use client";
 import { InputPassword } from "@/components/InputPassword";
-import SignInProviders from "@/components/SignInProviders";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,7 +22,7 @@ export default function Page() {
   };
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="bg-transparent min-w-80 border -backdrop-hue-rotate-60 p-5 rounded-lg flex-col flex gap-5">
+      <div className="bg-transparent min-w-[20rem] border -backdrop-hue-rotate-60 p-5 rounded-lg flex-col flex gap-5">
         <h1 className="text-2xl text-center my-3">Sign In</h1>
         <div className="flex-col flex gap-5">
           <div className="flex flex-col gap-2">
@@ -48,7 +47,7 @@ export default function Page() {
               name="password"
             />
           </div>
-          <Button onClick={handleSubmit} className="bg-yellow w-full">
+          <Button onClick={handleSubmit} className="bg-yellow w-full mt-5">
             Submit
           </Button>
         </div>
